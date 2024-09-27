@@ -24,13 +24,13 @@
             string userID = Console.ReadLine();
             int counter1 = 0;
             
-            while (counter1 < 2)
+            while (counter1 < 3)
             {
                 for (int i = 0; i < customers.GetLength(0); i++)
                 {
                     for (int j = 0; j < customers.GetLength(1); j++)
                     {
-                        if (userID == customers[i, j])
+                        if (userID == customers[i, j] && j==1)
                         {
                             Console.Write("Skriv in din PIN-kod: ");
                             string userPin = Console.ReadLine();
