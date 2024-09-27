@@ -4,12 +4,51 @@
     {
         static void Main(string[] args)
         {
+            string[,] customers = new string[5, 2]
+             {
+                 { "LinOl", "3533" },
+                 { "JonOl", "2834" },
+                 { "AnnTu", "9763" },
+                 { "HanTu", "1095" },
+                 { "HenOl", "0702" },
+             };
+
+            string[][,] accounts = new string[5][,];
+
+            accounts[0] = new string[2, 4]
+            {
+                { "Lönekonto", "Sparkonto", "Räkningskonto", "Extrakonto" },
+                { "33000", "600000", "100000", "50000" },
+            };
+            accounts[1] = new string[2, 3]
+            {
+                { "Lönekonto", "Sparkonto", "Extrakonto" },
+                { "64000", "550000", "150000" },
+            };
+            accounts[2] = new string[2, 2]
+            {
+                { "Lönekonto", "Sparkonto" },
+                { "155000", "1375000" },
+            };
+            accounts[3] = new string[2, 2]
+            {
+                { "Lönekonto", "Extrakonto" },
+                { "73000", "10000" },
+            }; 
+            accounts[4] = new string[2, 1]
+            {
+                { "Lönekonto" },
+                { "25000" },
+            };
+
+
+
             bool running = true;
             while (running)
             {
                 Console.Clear();
-                int index = LogIn();
-                
+                int index = LogIn(customers);
+
                 bool menu = true;
                 while (menu)
                 {
@@ -43,39 +82,30 @@
                     }
                 }
             }
-            
-            
+
+
         }
 
         // A LogIn method
-        static int LogIn()
+        static int LogIn(string[,] customers)
         {
-            string[,] customers = new string[5, 3]
-             {
-                 { "0", "LinOl", "3533" },
-                 { "1", "JonOl", "2834" },
-                 { "2", "AnnTu", "9763" },
-                 { "3", "HanTu", "1095" },
-                 { "4", "HenOl", "0702" },
-             };
-
             Console.WriteLine("\t*** Välkommen till Campusbanken ***");
             Console.Write("\nAnge ditt användar-ID för att påbörja inloggning: ");
             string userID = Console.ReadLine();
             int counter1 = 0;
-            
+
             while (counter1 < 3)
             {
                 for (int i = 0; i < customers.GetLength(0); i++)
                 {
                     for (int j = 0; j < customers.GetLength(1); j++)
                     {
-                        if (userID == customers[i, j] && j==1)
+                        if (userID == customers[i, j] && j == 0)
                         {
                             Console.Write("Skriv in din PIN-kod: ");
                             string userPin = Console.ReadLine();
                             int counter2 = 0;
-                            while (userPin != customers[i, j + 1] && counter2 < 2)
+                            while (userPin != customers[i, 1] && counter2 < 2)
                             {
                                 Console.Write("Fel kod. Försök igen: ");
                                 userPin = Console.ReadLine();
@@ -90,7 +120,7 @@
                             }
                             else
                             {
-                                return j - 1;
+                                return i;
                             }
                         }
                     }
@@ -104,5 +134,5 @@
             Console.ResetColor();
             return 0;
         }
-    }      
+    }
 }
