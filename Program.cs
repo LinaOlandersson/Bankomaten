@@ -4,7 +4,47 @@
     {
         static void Main(string[] args)
         {
-            int index = LogIn();
+            bool running = true;
+            while (running)
+            {
+                Console.Clear();
+                int index = LogIn();
+                
+                bool menu = true;
+                while (menu)
+                {
+                    Console.Clear();
+                    Console.WriteLine("1. Se dina konton och saldon");
+                    Console.WriteLine("2. Överföring mellan konton");
+                    Console.WriteLine("3. Ta ut pengar");
+                    Console.WriteLine("4. Logga ut");
+
+                    Console.Write("\nVälj något från menyn: ");
+                    string menuChoice = Console.ReadLine();
+                    switch (menuChoice)
+                    {
+                        case "1":
+                            //Kalla på metod
+                            break;
+                        case "2":
+                            //Kalla på metod
+                            break;
+                        case "3":
+                            //Kalla på metod
+                            break;
+                        case "4":
+                            menu = false;
+                            break;
+                        default:
+                            Console.WriteLine("Det menyvalet finns inte. " +
+                                "Tryck valfri tangent för att fortsätta.");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+            }
+            
+            
         }
 
         // A LogIn method
