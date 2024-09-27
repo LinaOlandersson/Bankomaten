@@ -5,7 +5,6 @@
         static void Main(string[] args)
         {
             int index = LogIn();
-            Console.WriteLine(index);
         }
 
         // A LogIn method
@@ -23,48 +22,47 @@
             Console.WriteLine("\t*** Välkommen till Campusbanken ***");
             Console.Write("\nAnge ditt användar-ID för att påbörja inloggning: ");
             string userID = Console.ReadLine();
-
-            for (int i = 0; i < customers.GetLength(0); i++)
+            int counter1 = 0;
+            
+            while (counter1 < 2)
             {
-                for (int j = 0; j < customers.GetLength(1); j++)
+                for (int i = 0; i < customers.GetLength(0); i++)
                 {
-                    if (userID == customers[i, j])
+                    for (int j = 0; j < customers.GetLength(1); j++)
                     {
-                        Console.Write("Skriv in din PIN-kod: ");
-                        string userPin = Console.ReadLine();
-                        int counter = 1;
-                        while (userPin != customers[i, j + 1] && counter < 3)
+                        if (userID == customers[i, j])
                         {
-                            Console.Write("Fel kod. Försök igen: ");
-                            userPin = Console.ReadLine();
-                            counter++;
-                        }
-                        if (counter >= 3)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("\nFör många försök. Banken stänger ned.");
-                            Console.ResetColor();
-                            return 0;
-                        }
-                        else
-                        {
-                            return j - 1;
+                            Console.Write("Skriv in din PIN-kod: ");
+                            string userPin = Console.ReadLine();
+                            int counter2 = 0;
+                            while (userPin != customers[i, j + 1] && counter2 < 2)
+                            {
+                                Console.Write("Fel kod. Försök igen: ");
+                                userPin = Console.ReadLine();
+                                counter2++;
+                            }
+                            if (counter2 >= 2)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("\nFör många försök. Banken stänger ned.");
+                                Console.ResetColor();
+                                return 0;
+                            }
+                            else
+                            {
+                                return j - 1;
+                            }
                         }
                     }
                 }
+                Console.Write("\nOkänt ID. Försök igen: ");
+                userID = Console.ReadLine();
+                counter1++;
             }
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\nOkänt ID. Banken stänger ner.");
+            Console.WriteLine("\nFör många försök. Banken stänger ned.");
             Console.ResetColor();
             return 0;
-
- 
-
-
-            
-
         }
-    }
-        
-        
+    }      
 }
