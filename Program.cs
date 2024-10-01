@@ -13,35 +13,13 @@
                  { "HenOl", "0702" },
              };
 
-            string[][,] accounts = new string[5][,];
-
-            accounts[0] = new string[2, 4]
+            string[][,] accounts = new string[4][,]
             {
-                { "Lönekonto", "Sparkonto", "Räkningskonto", "Extrakonto" },
-                { "33000", "600000", "100000", "50000" },
+                new string[,] { { "Lönekonto: ", "28000.00" }, { "Sparkonto: ", "34560.00" } },
+                new string[,] { { "Lönekonto: ", "543670.00" }, { "Sparkonto ", "133400.00" }, { "Extrakonto: ", "345000.00" } },
+                new string[,] { { "Lönekonto: ", "300.00" } },
+                new string[,] { { "Lönekonto: ", "67500.00" }, { "Sparkonto: ", "320.00" }, { "Extrakonto: ", "45000.00"}, {"Räkningskonto: ", "50000.00" } },
             };
-            accounts[1] = new string[2, 3]
-            {
-                { "Lönekonto", "Sparkonto", "Extrakonto" },
-                { "64000", "550000", "150000" },
-            };
-            accounts[2] = new string[2, 2]
-            {
-                { "Lönekonto", "Sparkonto" },
-                { "155000", "1375000" },
-            };
-            accounts[3] = new string[2, 2]
-            {
-                { "Lönekonto", "Extrakonto" },
-                { "73000", "10000" },
-            }; 
-            accounts[4] = new string[2, 1]
-            {
-                { "Lönekonto" },
-                { "25000" },
-            };
-
-
 
             bool running = true;
             while (running)
@@ -63,7 +41,7 @@
                     switch (menuChoice)
                     {
                         case "1":
-                            //Kalla på metod
+                            SeeAccount(index, accounts);
                             break;
                         case "2":
                             //Kalla på metod
@@ -82,10 +60,26 @@
                     }
                 }
             }
-
-
         }
 
+
+        // A metod to view the customers accounts
+        static void SeeAccount(int index, string[][,] accounts)
+        {
+            Console.WriteLine("\nDu har följande konto(n) och saldo(n):\n");
+
+            for (int i = 0; i < accounts[index].GetLength(0); i++)
+            {
+                for (int j = 0; j < accounts[index].GetLength(1); j++)
+                {
+                    Console.Write(accounts[index][i, j]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("\nTryck på valfri tangent för att fortsätta.");
+            Console.ReadKey();
+        }
+        
         // A LogIn method
         static int LogIn(string[,] customers)
         {
