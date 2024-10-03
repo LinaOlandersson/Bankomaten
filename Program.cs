@@ -13,12 +13,13 @@
                  { "HenOl", "0702" },
              };
 
-            string[][,] accounts = new string[4][,]
+            string[][,] accounts = new string[5][,]
             {
-                new string[,] { { "Lönekonto: ", "28000.00" }, { "Sparkonto: ", "34560.00" } },
-                new string[,] { { "Lönekonto: ", "543670.00" }, { "Sparkonto ", "133400.00" }, { "Extrakonto: ", "345000.00" } },
-                new string[,] { { "Lönekonto: ", "300.00" } },
-                new string[,] { { "Lönekonto: ", "67500.00" }, { "Sparkonto: ", "320.00" }, { "Extrakonto: ", "45000.00"}, {"Räkningskonto: ", "50000.00" } },
+                new string[,] { { "1. Lönekonto: ", "28000,00" }, { "2. Sparkonto: ", "34560,00" } },
+                new string[,] { { "1. Lönekonto: ", "543670,00" }, { "2. Sparkonto ", "133400,00" }, { "3. Extrakonto: ", "345000,00" } },
+                new string[,] { { "1. Lönekonto: ", "300,00" } },
+                new string[,] { { "1. Lönekonto: ", "67500,00" }, { "2. Sparkonto: ", "320,00" }, { "3. Extrakonto: ", "45000,00"}, {"4. Räkningskonto: ", "50000,00" } },
+                new string[,] { { "1. Sparkonto: "}, { "3570,00" } },
             };
 
             bool running = true;
@@ -42,12 +43,16 @@
                     {
                         case "1":
                             SeeAccount(index, accounts);
+                            Console.WriteLine("\nTryck på valfri tangent för att fortsätta.");
+                            Console.ReadKey();
                             break;
                         case "2":
                             //Kalla på metod
                             break;
                         case "3":
-                            //Kalla på metod
+                            Withdrawal(index, customers, accounts);
+                            Console.WriteLine("\nTryck på valfri tangent för att fortsätta.");
+                            Console.ReadKey();
                             break;
                         case "4":
                             menu = false;
@@ -61,7 +66,59 @@
                 }
             }
         }
+        // A method to make a withdrawal
+        static void Withdrawal(int index, string[,] customers, string[][,] accounts)
+        {
+            int accIndex;
+            double moneyOut;
+            
+            SeeAccount(index, accounts);
+            Console.Write("\nVilket konto vill du göra uttag från? Ange siffra: ");
+            while (!int.TryParse(Console.ReadLine(), out accIndex)) // Om inte kontot finns?
+            {
+                Console.Write("Fel inmatning. Ange siffra: ");
+            }
 
+            Console.Write("\nAnge summa att ta ut: ");
+            while (!double.TryParse(Console.ReadLine(), out moneyOut) || moneyOut > Convert.ToDouble(accounts[index][accIndex-1, 1]))
+            {
+                Console.Write("Fel inmatning. Ange summa: ");
+            }
+            
+            Console.Write("\nSkriv in din PIN-kod för att bekräfta eller 'A' för att avbryta: ");
+            string userPin = Console.ReadLine();
+            double newBalance;
+            if (userPin.ToUpper() == "A")
+            {
+                return;
+            }
+            else if (userPin == customers[index, 1])
+            {
+                newBalance = Convert.ToDouble(accounts[index][accIndex - 1, 1]) - moneyOut;
+                accounts[index][accIndex - 1, 1] = Convert.ToString(newBalance);
+                Console.WriteLine($"\nNytt saldo: {accounts[index][accIndex - 1, 1]}");
+            }
+
+            int counter = 0;
+            while (userPin != customers[index, 1] && counter < 2)
+            {
+                Console.Write("Fel kod. Försök igen eller 'A' för att avbryta: ");
+                userPin = Console.ReadLine();
+                counter++;
+                if (userPin.ToUpper() == "A")
+                {
+                    return; ;
+                }
+                
+                else if (counter >= 2)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nFör många försök. Ärendet avslutas.");
+                    Console.ResetColor();
+                    return;
+                }
+            }
+        }
 
         // A metod to view the customers accounts
         static void SeeAccount(int index, string[][,] accounts)
@@ -76,10 +133,8 @@
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("\nTryck på valfri tangent för att fortsätta.");
-            Console.ReadKey();
         }
-        
+
         // A LogIn method
         static int LogIn(string[,] customers)
         {
