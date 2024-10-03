@@ -95,7 +95,7 @@
             else if (userPin == customers[index, 1])
             {
                 newBalance = Convert.ToDouble(accounts[index][accIndex - 1, 1]) - moneyOut;
-                accounts[index][accIndex - 1, 1] = Convert.ToString(newBalance);
+                accounts[index][accIndex - 1, 1] = String.Format("{0:0.00}", newBalance);
                 Console.WriteLine($"\nNytt saldo: {accounts[index][accIndex - 1, 1]}");
             }
 
