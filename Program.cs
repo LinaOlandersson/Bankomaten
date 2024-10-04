@@ -27,6 +27,11 @@
             {
                 Console.Clear();
                 int index = LogIn(customers);
+                if (index == -1)
+                {
+                    running = false;
+                    return;
+                }
 
                 bool menu = true;
                 while (menu)
@@ -43,22 +48,24 @@
                     {
                         case "1":
                             SeeAccount(index, accounts);
-                            Console.WriteLine("\nTryck på valfri tangent för att fortsätta.");
+                            Console.Write("\nTryck på valfri tangent för att fortsätta.");
                             Console.ReadKey();
                             break;
                         case "2":
-                            //Kalla på metod
+                            Transfer(index, accounts);
+                            Console.Write("\nTryck på valfri tangent för att fortsätta.");
+                            Console.ReadKey();
                             break;
                         case "3":
                             Withdrawal(index, customers, accounts);
-                            Console.WriteLine("\nTryck på valfri tangent för att fortsätta.");
+                            Console.Write("\nTryck på valfri tangent för att fortsätta.");
                             Console.ReadKey();
                             break;
                         case "4":
                             menu = false;
                             break;
                         default:
-                            Console.WriteLine("Det menyvalet finns inte. " +
+                            Console.Write("\nDet menyvalet finns inte. " +
                                 "Tryck valfri tangent för att fortsätta.");
                             Console.ReadKey();
                             break;
@@ -66,6 +73,40 @@
                 }
             }
         }
+        // A method to make a transfer between accounts
+        static void Transfer(int index, string[][,] accounts)
+        {
+            int outAcc;
+            int inAcc;
+            double moneyOut;
+
+            SeeAccount(index, accounts);
+            Console.Write("\nVilket konto vill du föra över från? Ange siffra: ");
+            while (!int.TryParse(Console.ReadLine(), out outAcc)) // Om inte kontot finns?
+            {
+                Console.Write("Fel inmatning. Ange siffra: ");
+            }
+            Console.Write("\nVilket konto vill du föra över till? Ange siffra: ");
+            while (!int.TryParse(Console.ReadLine(), out inAcc)) // Om inte kontot finns?
+            {
+                Console.Write("Fel inmatning. Ange siffra: ");
+            }
+            Console.Write("\nAnge summa att föra över: ");
+            while (!double.TryParse(Console.ReadLine(), out moneyOut) || moneyOut > Convert.ToDouble(accounts[index][outAcc - 1, 1]))
+            {
+                Console.Write("Fel inmatning. Ange summa: ");
+            }
+
+            double balanceOutAcc = Convert.ToDouble(accounts[index][outAcc - 1, 1]) - moneyOut;
+            accounts[index][outAcc - 1, 1] = String.Format("{0:0.00}", balanceOutAcc);
+            double balanceInAcc = Convert.ToDouble(accounts[index][inAcc - 1, 1]) + moneyOut;
+            accounts[index][inAcc - 1, 1] = String.Format("{0:0.00}", balanceInAcc);
+
+            Console.WriteLine($"\nNya saldon:\n\n{accounts[index][outAcc - 1, 0]}{accounts[index][outAcc - 1, 1]}" +
+                $"\n{accounts[index][inAcc - 1, 0]}{accounts[index][inAcc - 1, 1]}");
+        }
+
+
         // A method to make a withdrawal
         static void Withdrawal(int index, string[,] customers, string[][,] accounts)
         {
@@ -74,7 +115,7 @@
             
             SeeAccount(index, accounts);
             Console.Write("\nVilket konto vill du göra uttag från? Ange siffra: ");
-            while (!int.TryParse(Console.ReadLine(), out accIndex)) // Om inte kontot finns?
+            while (!int.TryParse(Console.ReadLine(), out accIndex) || accIndex <=0 || accIndex > accounts[index].GetLength(0)) // Om inte kontot finns?
             {
                 Console.Write("Fel inmatning. Ange siffra: ");
             }
@@ -107,9 +148,8 @@
                 counter++;
                 if (userPin.ToUpper() == "A")
                 {
-                    return; ;
+                    return;
                 }
-                
                 else if (counter >= 2)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -143,7 +183,7 @@
             string userID = Console.ReadLine();
             int counter1 = 0;
 
-            while (counter1 < 3)
+            while (counter1 < 2)
             {
                 for (int i = 0; i < customers.GetLength(0); i++)
                 {
@@ -151,7 +191,7 @@
                     {
                         if (userID == customers[i, j] && j == 0)
                         {
-                            Console.Write("Skriv in din PIN-kod: ");
+                            Console.Write("\nSkriv in din PIN-kod: ");
                             string userPin = Console.ReadLine();
                             int counter2 = 0;
                             while (userPin != customers[i, 1] && counter2 < 2)
@@ -165,7 +205,7 @@
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("\nFör många försök. Banken stänger ned.");
                                 Console.ResetColor();
-                                return 0;
+                                return -1;
                             }
                             else
                             {
@@ -174,14 +214,15 @@
                         }
                     }
                 }
-                Console.Write("\nOkänt ID. Försök igen: ");
-                userID = Console.ReadLine();
+                Console.Write("Okänt ID. Försök igen: ");
                 counter1++;
+                userID = Console.ReadLine();
             }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\nFör många försök. Banken stänger ned.");
             Console.ResetColor();
-            return 0;
+            Console.ReadKey();
+            return -1;
         }
     }
 }
