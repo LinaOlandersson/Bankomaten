@@ -82,12 +82,12 @@
 
             SeeAccount(index, accounts);
             Console.Write("\nVilket konto vill du föra över från? Ange siffra: ");
-            while (!int.TryParse(Console.ReadLine(), out outAcc)) // Om inte kontot finns?
+            while (!int.TryParse(Console.ReadLine(), out outAcc) || outAcc <= 0 || outAcc > accounts[index].GetLength(0))
             {
                 Console.Write("Fel inmatning. Ange siffra: ");
             }
             Console.Write("\nVilket konto vill du föra över till? Ange siffra: ");
-            while (!int.TryParse(Console.ReadLine(), out inAcc)) // Om inte kontot finns?
+            while (!int.TryParse(Console.ReadLine(), out inAcc) || inAcc <= 0 || inAcc > accounts[index].GetLength(0))
             {
                 Console.Write("Fel inmatning. Ange siffra: ");
             }
@@ -115,7 +115,7 @@
             
             SeeAccount(index, accounts);
             Console.Write("\nVilket konto vill du göra uttag från? Ange siffra: ");
-            while (!int.TryParse(Console.ReadLine(), out accIndex) || accIndex <=0 || accIndex > accounts[index].GetLength(0)) // Om inte kontot finns?
+            while (!int.TryParse(Console.ReadLine(), out accIndex) || accIndex <=0 || accIndex > accounts[index].GetLength(0))
             {
                 Console.Write("Fel inmatning. Ange siffra: ");
             }
