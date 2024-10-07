@@ -144,7 +144,8 @@
          * This metod presents the accounts connected to the logged in customer.*/
         static void SeeAccount(int index, string[][,] accounts)
         {
-            Console.WriteLine("\nDu har följande konto(n) och saldo(n):\n");
+            Console.Clear();
+            Console.WriteLine("Du har följande konto(n) och saldo(n):\n");
 
             for (int i = 0; i < accounts[index].GetLength(0); i++)
             {
