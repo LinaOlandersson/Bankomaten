@@ -180,6 +180,11 @@
             {
                 Console.Write("Fel inmatning. Ange siffra: ");
             }
+            if (inAcc == outAcc)
+            {
+                Console.Write("\nFrån- och tillkonto kan inte vara samma. Ärendet avslutas.\n");
+                return;
+            }
             Console.Write("\nAnge summa att föra över: ");
             while (!double.TryParse(Console.ReadLine(), out moneyOut) 
                 || moneyOut > Convert.ToDouble(accounts[index][outAcc - 1, 1]))
@@ -205,15 +210,19 @@
          * drawal with PIN-code. Failure to confirm results in returning to menu.*/
         static void Withdrawal(int index, string[,] customers, string[][,] accounts)
         {
-            int accIndex;
+            int accIndex = 1;
             double moneyOut;
             
             SeeAccount(index, accounts);
-            Console.Write("\nVilket konto vill du göra uttag från? Ange siffra: ");
-            while (!int.TryParse(Console.ReadLine(), out accIndex) || accIndex <=0 
-                || accIndex > accounts[index].GetLength(0))
+            // If the user has more than one accounts the account needs to be specified.
+            if (accounts[index].GetLength(0) != 1)
             {
-                Console.Write("Fel inmatning. Ange siffra: ");
+                Console.Write("\nVilket konto vill du göra uttag från? Ange siffra: ");
+                while (!int.TryParse(Console.ReadLine(), out accIndex) || accIndex <= 0
+                    || accIndex > accounts[index].GetLength(0))
+                {
+                    Console.Write("Fel inmatning. Ange siffra: ");
+                }
             }
 
             Console.Write("\nAnge summa att ta ut: ");
