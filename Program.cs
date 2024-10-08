@@ -24,7 +24,7 @@
                 new string[,] { { "1. Lönekonto: ", "300,00" } },
                 new string[,] { { "1. Lönekonto: ", "67500,00" }, { "2. Sparkonto: ", "320,00" }, 
                                 { "3. Extrakonto: ", "45000,00"}, {"4. Räkningskonto: ", "50000,00" } },
-                new string[,] { { "1. Sparkonto: "}, { "3570,00" } },
+                new string[,] { { "1. Sparkonto: ", "3570,00" } },
             };
             // A bool and an outer while loop to keep the program running.
             bool running = true;
@@ -205,7 +205,7 @@
         }
 
         /* ---------------------*** Withdrawal method ***---------------------
-         * A metod to make a withdrawal from a specific account. If the account 
+         * A method to make a withdrawal from a specific account. If the account 
          * not exists or if the balance gets negative the user gets a message 
          * that the action is not allowed. The customer have to confirm the with-
          * drawal with PIN-code. Failure to confirm results in returning to menu.*/
